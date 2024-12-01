@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class BaseRepository {
-    private static final String URL = "jdbc:mysql://localhost:3306/tanashop?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";
+    private static final String URL = "jdbc:mysql://localhost:3306/tanashop";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "000000";
 
@@ -14,7 +14,7 @@ public class BaseRepository {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            System.out.println("Kết nối thành công");
+            System.out.println("Connected Successfully");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

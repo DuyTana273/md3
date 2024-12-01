@@ -4,7 +4,6 @@ import com.demo.test.model.User;
 import com.demo.test.repository.BaseRepository;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +16,9 @@ public class UserRepo implements IUserRepo {
     private static final String SELECT_USER_BY_ID = "SELECT * FROM Users WHERE userID = ?";
     private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM Users WHERE username = ? AND password = ?";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username = ?";
+    private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM Users WHERE email = ?";
     private static final String UPDATE_USER = "UPDATE Users SET username = ?, password = ?, fullName = ?, email = ?, phone = ?, address = ?, avatar = ?, userCreatedDate = ?, userUpdatedDate = ?, userStatus = ?, userRole = ? WHERE userID = ?";
-    private static final String DELETE_USER_BY_ID = "DELETE FROM Users WHERE userID = ?";
+    private static final String DELETE_USER_BY_USERNAME = "DELETE FROM Users WHERE username = ?";
 
     // Create
     @Override
@@ -114,33 +114,18 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
-    public boolean hasHigherRole(String username, String targetUsername) {
-        Optional<User> userOpt = findByUsername(username);
-        Optional<User> targetUserOpt = findByUsername(targetUsername);
-
-        if (userOpt.isEmpty() || targetUserOpt.isEmpty()) {
-            return false;
+    public Optional<User> findByEmail(String email) {
+        try (Connection connection = BaseRepository.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL)) {
+            preparedStatement.setString(1, email);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return Optional.of(mapUser(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        int userRoleLevel = getRoleLevel(userOpt.get().getUserRole());
-        int targetUserRoleLevel = getRoleLevel(targetUserOpt.get().getUserRole());
-
-        return userRoleLevel > targetUserRoleLevel;
-    }
-
-    private int getRoleLevel(String role) {
-        switch (role) {
-            case "admin":
-                return 4;
-            case "manager":
-                return 3;
-            case "employee":
-                return 2;
-            case "customer":
-                return 1;
-            default:
-                return 0;
-        }
+        return Optional.empty();
     }
 
     // Update
@@ -178,12 +163,12 @@ public class UserRepo implements IUserRepo {
 
     // Delete
     @Override
-    public boolean deleteUserByID(int userID) {
+    public boolean deleteUserByUsername(String username) {
         try (Connection connection = BaseRepository.getConnection()) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID)) {
-                preparedStatement.setInt(1, userID);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_USERNAME)) {
+                preparedStatement.setString(1, username);
                 int affectedRows = preparedStatement.executeUpdate();
 
                 if (affectedRows > 0) {

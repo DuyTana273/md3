@@ -1,0 +1,93 @@
+/* Toast Container */
+.toast-container {
+    position: fixed;
+    right: 1rem;
+    max-width: 400px;
+    z-index: 9999;
+}
+
+/* Toast chính */
+.toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0.95; /* Độ trong suốt */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Hiệu ứng khi toast xuất hiện và biến mất */
+.toast.show {
+    animation: fadeIn 0.5s, fadeOut 0.5s 4.5s forwards;
+}
+
+/* Hiệu ứng khi xuất hiện (fadeIn) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hiệu ứng khi biến mất (fadeOut) */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Căn chỉnh nội dung trong toast */
+.toast-body {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+/* Style cho icon bên trong toast */
+.toast i {
+    margin-right: 8px;
+    font-size: 1.25rem;
+}
+
+/* Màu sắc cho các loại toast khác nhau */
+.toast-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.toast-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.toast-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Độ tương phản màu chữ và nền khi hover */
+.toast:hover {
+    opacity: 1;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Cài đặt nút đóng (close button) */
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    filter: brightness(0) invert(1);
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+/* Hiệu ứng cho nút đóng khi hover */
+.btn-close:hover {
+    opacity: 0.7;
+}

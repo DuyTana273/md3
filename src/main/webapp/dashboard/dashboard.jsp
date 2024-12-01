@@ -1,16 +1,30 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 11/21/2024
-  Time: 7:29 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="true" %>
+
+<!-- Kiểm tra người dùng đã đăng nhập chưa -->
+<c:if test="${empty sessionScope.loggedInUser}">
+    <c:redirect url="${pageContext.request.contextPath}/login" />
+</c:if>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <%--  Nhúng CSS  --%>
+
+    <%--  BOOTSTRAP --%>
+
+</head>
+<body>
+    <!-- Gọi sidebar -->
+    <jsp:include page="../common/sidebar.jsp" />
+    <!-- Gọi toast -->
+    <jsp:include page="../common/toast.jsp" />
+
+    <div id="main-content" style="margin-top: 200px">
+        <h4>Xin chào đến với Dashboard Admin</h4>
+    </div>
+</body>
 </html>

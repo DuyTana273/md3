@@ -16,13 +16,13 @@ public interface IUserRepo {
     List<User> findAllUsers();
     Optional<User> findUserByUsernameAndPassword(String username, String password);
     Optional<User>  findByUsername(String username);
-    boolean hasHigherRole(String username, String targetUsername);
+    Optional<User> findByEmail(String email);
 
     // Update
     void updateUser(User user);
 
     // Delete
-    boolean deleteUserByID(int userID);
+    boolean deleteUserByUsername(String username);
 
     // Phương thức ánh xạ từ ResultSet sang đối tượng User
     User mapUser(ResultSet rs) throws SQLException;

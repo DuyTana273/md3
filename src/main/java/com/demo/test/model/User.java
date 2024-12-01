@@ -25,7 +25,6 @@ public class User {
                 String address, String avatar,
                 LocalDateTime userCreatedDate, LocalDateTime userUpdatedDate,
                 String userStatus, String userRole) {
-        super();
         this.userID = userID;
         this.username = username;
         this.password = password;

@@ -17,37 +17,42 @@
     <!-- Gọi toast -->
     <jsp:include page="../../common/toast.jsp" />
 
-    <form action="${pageContext.request.contextPath}/users" method="post" style="margin-top: 100px">
+    <form action="${pageContext.request.contextPath}/users?action=updateUser" method="post" style="margin-top: 100px">
+        <div class="mb-3">
+            <label for="username" class="form-label">Tên đăng nhập</label>
+            <input type="text" id="username" name="username" class="form-control" value="${username != null ? username : user.username}" readonly>
+        </div>
+
         <div class="mb-3">
             <label for="fullName" class="form-label">Họ và tên</label>
-            <input type="text" id="fullName" name="fullName" class="form-control" value="${user.fullName}">
+            <input type="text" id="fullName" name="fullName" class="form-control" value="${fullName != null ? fullName : user.fullName}">
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" name="email" class="form-control" value="${user.email}">
+            <input type="email" id="email" name="email" class="form-control" value="${email != null ? email : user.email}">
         </div>
 
         <div class="mb-3">
             <label for="phone" class="form-label">Số điện thoại</label>
-            <input type="text" id="phone" name="phone" class="form-control" value="${user.phone}">
+            <input type="text" id="phone" name="phone" class="form-control" vvalue="${phone != null ? phone : user.phone}">
         </div>
 
         <div class="mb-3">
             <label for="address" class="form-label">Địa chỉ</label>
-            <input type="text" id="address" name="address" class="form-control" value="${user.address}">
+            <input type="text" id="address" name="address" class="form-control" value="${address != null ? address : user.address}">
         </div>
 
         <div class="mb-3">
             <label for="avatar" class="form-label">Avatar (URL)</label>
-            <input type="text" id="avatar" name="avatar" class="form-control" value="${user.avatar}">
+            <input type="text" id="avatar" name="avatar" class="form-control" value="${avatar != null ? avatar : user.avatar}">
         </div>
 
         <div class="mb-3">
             <label for="userStatus" class="form-label">Trạng thái</label>
             <select id="userStatus" name="userStatus" class="form-select">
-                <option value="active" ${user.userStatus == 'active' ? 'selected' : ''}>Active</option>
-                <option value="inactive" ${user.userStatus == 'suspended' ? 'selected' : ''}>Suspended</option>
+                <option value="active" ${userStatus != null && userStatus == 'active' ? 'selected' : ''}>Active</option>
+                <option value="suspended" ${userStatus != null && userStatus == 'inactive' ? 'selected' : ''}>Suspended</option>
             </select>
         </div>
 
@@ -61,9 +66,21 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <label for="userCreatedDate" class="form-label">Ngày tạo tài khoản</label>
+            <input type="text" id="userCreatedDate" name="userCreatedDate" class="form-control" value="${user.userCreatedDate}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="userUpdatedDate" class="form-label">Ngày cập nhật tài khoản</label>
+            <input type="text" id="userUpdatedDate" name="userUpdatedDate" class="form-control" value="${user.userUpdatedDate}" readonly>
+        </div>
+
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
-            <a href="${pageContext.request.contextPath}/users?action=listUsers" class="btn btn-secondary">Hủy</a>
+            <a href="${pageContext.request.contextPath}/users?action=listUsers" class="btn btn-secondary">
+                Quay lại
+            </a>
         </div>
     </form>
 

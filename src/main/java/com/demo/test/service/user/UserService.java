@@ -41,8 +41,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean hasHigherRole(String username, String targetUsername) {
-        return iUserRepo.hasHigherRole(username, targetUsername);
+    public Optional<User> findByEmail(String email) {
+        return iUserRepo.findByEmail(email);
     }
 
     // Update
@@ -53,7 +53,7 @@ public class UserService implements IUserService {
 
     // Delete
     @Override
-    public boolean deleteUserByID(int userID) {
-        return iUserRepo.deleteUserByID(userID);
+    public boolean deleteUserByUsername(String username) {
+        return iUserRepo.deleteUserByUsername(username);
     }
 }

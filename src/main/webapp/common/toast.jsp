@@ -9,7 +9,7 @@
 </head>
 
 <!-- Toast  -->
-<div class="toast-container p-3" style="z-index: 9999; width: 400px;">
+<div class="toast-container p-2" style="z-index: 9999; width: 400px;">
   <c:choose>
     <c:when test="${not empty sessionScope.successMessage}">
       <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
