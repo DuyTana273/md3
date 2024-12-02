@@ -23,35 +23,28 @@ public class UserRepo implements IUserRepo {
     // Create
     @Override
     public void addUser(User user) {
-        try (Connection connection = BaseRepository.getConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER)) {
-                preparedStatement.setString(1, user.getUsername());
-                preparedStatement.setString(2, user.getPassword());
-                preparedStatement.setString(3, user.getFullName());
-                preparedStatement.setString(4, user.getEmail());
-                preparedStatement.setString(5, user.getPhone());
-                preparedStatement.setString(6, user.getAddress());
-                preparedStatement.setString(7, user.getAvatar());
-                preparedStatement.setTimestamp(8, Timestamp.valueOf(user.getUserCreatedDate()));
-                preparedStatement.setTimestamp(9, Timestamp.valueOf(user.getUserUpdatedDate()));
-                preparedStatement.setString(10, user.getUserStatus());
-                preparedStatement.setString(11, user.getUserRole());
+        try (Connection connection = BaseRepository.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER)) {
 
-                preparedStatement.executeUpdate();
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                e.printStackTrace();
-            } finally {
-                connection.setAutoCommit(true);
-            }
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFullName());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPhone());
+            preparedStatement.setString(6, user.getAddress());
+            preparedStatement.setString(7, user.getAvatar());
+            preparedStatement.setTimestamp(8, Timestamp.valueOf(user.getUserCreatedDate()));
+            preparedStatement.setTimestamp(9, Timestamp.valueOf(user.getUserUpdatedDate()));
+            preparedStatement.setString(10, user.getUserStatus());
+            preparedStatement.setString(11, user.getUserRole());
+
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Find
+    /// Find
     @Override
     public Optional<User> findUserByID(int userID) {
         try (Connection connection = BaseRepository.getConnection();
@@ -131,60 +124,38 @@ public class UserRepo implements IUserRepo {
     // Update
     @Override
     public void updateUser(User user) {
-        try (Connection connection = BaseRepository.getConnection()) {
-            connection.setAutoCommit(false);
+        try (Connection connection = BaseRepository.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
-                preparedStatement.setString(1, user.getUsername());
-                preparedStatement.setString(2, user.getPassword());
-                preparedStatement.setString(3, user.getFullName());
-                preparedStatement.setString(4, user.getEmail());
-                preparedStatement.setString(5, user.getPhone());
-                preparedStatement.setString(6, user.getAddress());
-                preparedStatement.setString(7, user.getAvatar());
-                preparedStatement.setTimestamp(8, Timestamp.valueOf(user.getUserCreatedDate()));
-                preparedStatement.setTimestamp(9, Timestamp.valueOf(user.getUserUpdatedDate()));
-                preparedStatement.setString(10, user.getUserStatus());
-                preparedStatement.setString(11, user.getUserRole());
-                preparedStatement.setInt(12, user.getUserID());
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFullName());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPhone());
+            preparedStatement.setString(6, user.getAddress());
+            preparedStatement.setString(7, user.getAvatar());
+            preparedStatement.setTimestamp(8, Timestamp.valueOf(user.getUserCreatedDate()));
+            preparedStatement.setTimestamp(9, Timestamp.valueOf(user.getUserUpdatedDate()));
+            preparedStatement.setString(10, user.getUserStatus());
+            preparedStatement.setString(11, user.getUserRole());
+            preparedStatement.setInt(12, user.getUserID());
 
-                preparedStatement.executeUpdate();
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                e.printStackTrace();
-            } finally {
-                connection.setAutoCommit(true);
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Delete
+    /// Delete
     @Override
     public boolean deleteUserByUsername(String username) {
-        try (Connection connection = BaseRepository.getConnection()) {
-            connection.setAutoCommit(false);
+        try (Connection connection = BaseRepository.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_USERNAME)) {
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_USERNAME)) {
-                preparedStatement.setString(1, username);
-                int affectedRows = preparedStatement.executeUpdate();
+            preparedStatement.setString(1, username);
+            int affectedRows = preparedStatement.executeUpdate();
 
-                if (affectedRows > 0) {
-                    connection.commit();
-                    return true;
-                } else {
-                    connection.rollback();
-                    return false;
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                e.printStackTrace();
-                return false;
-            } finally {
-                connection.setAutoCommit(true);
-            }
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

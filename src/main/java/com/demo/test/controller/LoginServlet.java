@@ -39,7 +39,6 @@ public class LoginServlet extends HttpServlet {
             Optional<User> loginUser = iUserService.findUserByUsernameAndPassword(username, password);
 
             if (loginUser.isPresent()) {
-                // Lưu thông tin người dùng vào session
                 User user = loginUser.get();
                 session.setAttribute("loggedInUser", user);
                 session.setAttribute("userRole", user.getUserRole());
