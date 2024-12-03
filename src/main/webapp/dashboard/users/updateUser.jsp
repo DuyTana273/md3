@@ -9,7 +9,7 @@
 </c:if>
 <html>
 <head>
-    <title>Edit User</title>
+    <title>Update User</title>
 </head>
 <body id="body-pd">
     <!-- Gọi sidebar -->
