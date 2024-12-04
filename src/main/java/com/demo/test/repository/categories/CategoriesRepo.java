@@ -70,7 +70,7 @@ public class CategoriesRepo implements ICategoriesRepo {
     public Optional<Categories> findCategoriesByName(String categories_name) {
         try (Connection connection = BaseRepository.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CATEGORIES_BY_NAME)) {
-            preparedStatement.setString(1, categories_name);
+            preparedStatement.setString(1, categories_name.trim());
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 return Optional.of(mapCategories(rs));

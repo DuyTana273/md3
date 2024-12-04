@@ -128,8 +128,6 @@
           <form id="deleteUserForm" action="${pageContext.request.contextPath}/users?action=deleteUser" method="post" style="display:inline;">
             <input type="hidden" name="action" value="deleteUser">
             <input type="hidden" name="username" id="usernameToDelete">
-
-            <!-- Nút Xóa sẽ gửi form -->
             <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
           </form>
         </div>

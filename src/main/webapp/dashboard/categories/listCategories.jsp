@@ -69,12 +69,11 @@
                     <i class="fas fa-edit-alt"></i> Sửa
                   </a>
 
-                  <form action="${pageContext.request.contextPath}/categories?action=deleteCategories" method="post" style="display:inline;">
-                    <input type="hidden" name="categories_name" value="${categories.categories_name}">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa nhãn hàng này?')">
-                      <i class="fas fa-trash-alt me-1"></i> Xóa
-                    </button>
-                  </form>
+                  <!-- Nút Xóa, hiển thị Modal -->
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                          data-categories_name="${categories.categories_name}">
+                    <i class="fas fa-trash-alt"></i> Xóa
+                  </button>
 
                 </td>
               </tr>
@@ -85,6 +84,42 @@
       </main>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Xác Nhận Xóa Thương Hiệu</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có chắc chắn muốn xóa thương hiệu này?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+
+          <!-- Form xóa người dùng -->
+          <form id="deleteCategoryForm" action="${pageContext.request.contextPath}/categories?action=deleteCategories" method="post" style="display:inline;">
+            <input type="hidden" name="action" value="deleteCategories">
+            <input type="hidden" name="categories_name" id="categoriesToDelete">
+            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%--Js modal--%>
+  <script>
+    var deleteButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+    deleteButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var categories_name = button.getAttribute('data-categories_name');
+        document.getElementById('categoriesToDelete').value = categories_name;
+      });
+    });
+  </script>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -46,9 +46,9 @@ public class CategoriesServlet extends HttpServlet {
             case "updateCategories":
                 showUpdateForm(req, resp);
                 break;
-//            case "deleteCategories":
-//                deleteCategories(req, resp);
-//                break;
+            case "deleteCategories":
+                deleteCategories(req, resp);
+                break;
             default:
                 listCategories(req, resp);
                 break;
@@ -68,9 +68,9 @@ public class CategoriesServlet extends HttpServlet {
             case "updateCategories":
                 updateCategories(req, resp);
                 break;
-//            case "deleteCategories":
-//                deleteCategories(req, resp);
-//                break;
+            case "deleteCategories":
+                deleteCategories(req, resp);
+                break;
         }
     }
 
@@ -126,6 +126,15 @@ public class CategoriesServlet extends HttpServlet {
         String categories_name = req.getParameter("categories_name");
         String categories_img = req.getParameter("categories_img");
 
+        Optional<Categories> checkCategories = iCategoriesService.findCategoriesByName(categories_name);
+        if (checkCategories.isPresent()) {
+            session.setAttribute("errorMessage", "Thương hiệu này đã tồn tại");
+            req.setAttribute("categories_name", categories_name);
+            req.setAttribute("categories_img", categories_img);
+            req.getRequestDispatcher("/dashboard/categories/createCategories.jsp").forward(req, resp);
+            return;
+        }
+
         Categories newCategories = new Categories();
         newCategories.setCategories_name(categories_name);
         newCategories.setCategories_img(categories_img);
@@ -147,6 +156,7 @@ public class CategoriesServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         String categories_name = req.getParameter("categories_name");
+
         if (loggedInUser == null) {
             session.setAttribute("errorMessage", "Bạn cần phải đăng nhập!");
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
@@ -179,11 +189,22 @@ public class CategoriesServlet extends HttpServlet {
 
         String categories_name = req.getParameter("categories_name");
         String categories_img = req.getParameter("categories_img");
+        int categories_id = Integer.parseInt(req.getParameter("categories_id"));
 
-        Optional<Categories> categoriesToUpdate = iCategoriesService.findCategoriesByName(categories_name);
+        Optional<Categories> categoriesToUpdate = iCategoriesService.findCategoriesById(categories_id);
         if (categoriesToUpdate.isEmpty()) {
             session.setAttribute("errorMessage", "Thương hiệu không tồn tại");
             resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
+            return;
+        }
+
+        Optional<Categories> checkCategories = iCategoriesService.findCategoriesByName(categories_name);
+        if (checkCategories.isPresent()) {
+            session.setAttribute("errorMessage", "Thương hiệu này đã tồn tại");
+            req.setAttribute("categories_id", categories_id);
+            req.setAttribute("categories_name", categories_name);
+            req.setAttribute("categories_img", categories_img);
+            req.getRequestDispatcher("/dashboard/categories/updateCategories.jsp").forward(req, resp);
             return;
         }
 
@@ -199,6 +220,52 @@ public class CategoriesServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("errorMessage", "Xảy ra lỗi khi cập nhật thương hiệu");
+            resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
+        }
+    }
+
+    private void deleteCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            session.setAttribute("errorMessage", "Bạn cần phải đăng nhập!");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+        if ("customer".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền xoá danh mục sản phẩm!");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        if ("employee".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền xoá danh mục sản phẩm!");
+            resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
+            return;
+        }
+
+        String categories_name = req.getParameter("categories_name");
+        Optional<Categories> categoriesToDelete = iCategoriesService.findCategoriesByName(categories_name);
+        if (categoriesToDelete.isEmpty()) {
+            session.setAttribute("errorMessage", "Thương hiệu không tồn tại");
+            resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
+            return;
+        }
+
+        Categories categories = categoriesToDelete.get();
+
+        try {
+            boolean success = iCategoriesService.deleteCategoriesByName(categories_name);
+            if (success) {
+                session.setAttribute("successMessage", "Xóa thương hiệu thành công!");
+            } else {
+                session.setAttribute("errorMessage", "Không thể xóa thương hiệu!");
+            }
+            resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("errorMessage", "Đã xảy ra lỗi trong quá trình xóa thương hiệu!");
             resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
         }
     }
