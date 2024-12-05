@@ -41,7 +41,7 @@
 
         <!-- Button Thêm Người Dùng -->
         <a href="${pageContext.request.contextPath}/categories?action=createCategories" class="btn btn-success btn-md mb-3">
-          <i class="fas fa-product-plus"></i> Thêm Nhãn Hàng
+          <i class="fas fa-plus-circle"></i> Thêm Nhãn Hàng
         </a>
 
         <div class="table-responsive">

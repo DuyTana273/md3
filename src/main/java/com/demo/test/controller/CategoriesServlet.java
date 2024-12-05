@@ -2,8 +2,6 @@ package com.demo.test.controller;
 
 import com.demo.test.model.Categories;
 import com.demo.test.model.User;
-import com.demo.test.repository.categories.CategoriesRepo;
-import com.demo.test.repository.categories.ICategoriesRepo;
 import com.demo.test.service.categories.CategoriesService;
 import com.demo.test.service.categories.ICategoriesService;
 import com.demo.test.service.user.IUserService;

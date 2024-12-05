@@ -22,6 +22,7 @@ body {
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
     transition: 0.5s;
+    background-color: #f0f0f0; /* Thêm màu nền cho body */
 }
 
 a {
@@ -39,6 +40,7 @@ a {
     justify-content: space-between;
     padding: 0 1rem;
     background-color: var(--white-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho header */
     z-index: var(--z-fixed);
     transition: 0.5s;
 }
@@ -47,6 +49,11 @@ a {
     color: var(--first-color);
     font-size: 1.5rem;
     cursor: pointer;
+    transition: color 0.3s; /* Thêm hiệu ứng chuyển màu */
+}
+
+.header_toggle:hover {
+    color: var(--first-color-light); /* Thay đổi màu khi hover */
 }
 
 .l-navbar {
@@ -60,6 +67,7 @@ a {
     transition: 0.5s;
     z-index: var(--z-fixed);
     overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho sidebar */
 }
 
 .nav {
@@ -96,11 +104,13 @@ a {
     position: relative;
     color: var(--first-color-light);
     margin-bottom: 1.5rem;
-    transition: 0.3s;
+    transition: color 0.3s, background-color 0.3s; /* Thêm hiệu ứng chuyển màu và nền */
+    border-radius: 5px; /* Thêm bo góc cho nav_link */
 }
 
 .nav_link:hover {
     color: var(--white-color);
+    background-color: rgba(255, 255, 255, 0.1); /* Thêm nền khi hover */
 }
 
 .nav_icon {
@@ -136,23 +146,24 @@ a {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
         padding-left: calc(var(--nav-width) + 2rem);
-    }
 
-    .header {
-        height: calc(var(--header-height) + 1rem);
-        padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
-    }
+        .header {
+            height: calc(var(--header-height) + 1rem);
+            padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Tăng độ bóng cho header */
+        }
 
-    .l-navbar {
-        left: 0;
-        padding: 1rem 1rem 0 0;
-    }
+        .l-navbar {
+            left: 0;
+            padding: 1rem 1rem 0 0;
+        }
 
-    .show {
-        width: calc(var(--nav-width) + 156px);
-    }
+        .show {
+            width: calc(var(--nav-width) + 156px);
+        }
 
-    .body-pd {
-        padding-left: calc(var(--nav-width) + 188px);
+        .body-pd {
+            padding-left: calc(var(--nav-width) + 188px);
+        }
     }
 }

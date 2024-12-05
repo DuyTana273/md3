@@ -39,6 +39,7 @@ public class CategoriesRepo implements ICategoriesRepo {
     @Override
     public List<Categories> findAllCategories() {
         List<Categories> categories = new ArrayList<>();
+
         try (Connection connection = BaseRepository.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CATEGORIES)){
             ResultSet rs = preparedStatement.executeQuery();

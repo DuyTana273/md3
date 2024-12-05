@@ -7,18 +7,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chủ</title>
-    <%--  Nhúng CSS  --%>
-
-    <%--  BOOTSTRAP --%>
-
 </head>
 <body>
-    <!-- Gọi sidebar -->
-    <jsp:include page="common/sidebar.jsp" />
-    <!-- Gọi toast -->
-    <jsp:include page="common/toast.jsp" />
+<!-- Sidebar -->
+<jsp:include page="common/sidebar.jsp" />
 
-    <div class="main-content">Đây là trang chủ </div>
+<!-- Toast -->
+<jsp:include page="common/toast.jsp" />
 
+<!-- Main Content -->
+<div class="main-content">
+    <h1>Chào mừng bạn đến với TanaShop!</h1>
+    <p>Đây là trang chủ của ứng dụng.</p>
+</div>
 </body>
 </html>
