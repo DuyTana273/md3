@@ -44,6 +44,28 @@
           <i class="fas fa-plus-circle"></i> Thêm Nhãn Hàng
         </a>
 
+        <%-- Search --%>
+        <form action="${pageContext.request.contextPath}/categories?action=listCategories" method="get">
+          <div class="input-group" style="max-width: 500px;">
+            <input type="text" class="form-control" id="searchCategoryName" name="searchCategoryName"
+                   placeholder="Nhập tên nhãn hàng"
+                   value="${param.searchCategoryName}"
+                   aria-label="Tìm người dùng">
+
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+
+            <!-- Nút quay lại nếu có tìm kiếm -->
+            <c:if test="${not empty param.searchCategoryName}">
+              <a href="${pageContext.request.contextPath}/categories?action=listCategories"
+                 class="btn btn-secondary ms-2">
+                <i class="fas fa-arrow-left"></i> Quay lại
+              </a>
+            </c:if>
+          </div>
+        </form>
+
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -66,7 +88,7 @@
                 <td><img src="${categories.categories_img}" alt="logo" style="width: 100px"></td>
                 <td>
                   <a href="${pageContext.request.contextPath}/categories?action=updateCategories&categories_name=${categories.categories_name}" class="btn btn-secondary btn-sm me-1">
-                    <i class="fas fa-edit-alt"></i> Sửa
+                    <i class="fas fa-pen"></i> Sửa
                   </a>
 
                   <!-- Nút Xóa, hiển thị Modal -->

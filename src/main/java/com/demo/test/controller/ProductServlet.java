@@ -87,8 +87,15 @@ public class ProductServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/index.jsp");
                 return;
             }
+            String searchKeyword = req.getParameter("searchProduct");
+            System.out.println("Searching for: " + searchKeyword);
 
-            List<Product> listProducts = iProductService.findAllProducts();
+            List<Product> listProducts;
+            if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+                listProducts = iProductService.searchProduct(searchKeyword.trim());
+            } else {
+                listProducts = iProductService.findAllProducts();
+            }
             req.setAttribute("listProducts", listProducts);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/products/listProducts.jsp");

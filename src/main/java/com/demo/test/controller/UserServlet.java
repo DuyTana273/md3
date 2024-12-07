@@ -83,7 +83,15 @@ public class UserServlet extends HttpServlet {
                 return;
             }
 
-            List<User> listUsers = iUserService.findAllUsers();
+            String searchKeyword = req.getParameter("searchUser");
+
+            List<User> listUsers;
+            if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+                listUsers = iUserService.searchUsers(searchKeyword.trim());
+            } else {
+                listUsers = iUserService.findAllUsers();
+            }
+
             req.setAttribute("listUsers", listUsers);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/users/listUsers.jsp");

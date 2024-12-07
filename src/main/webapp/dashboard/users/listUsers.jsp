@@ -34,14 +34,6 @@
 
   <div class="main-container" style="margin-top: 4rem">
       <div class="row">
-        <%-- Search --%>
-          <form action="${pageContext.request.contextPath}/users?action=searchUser" method="get" style="margin-bottom: 20px;">
-            <input type="hidden" name="action" value="searchUser">
-            <label for="searchUsername">Tìm người dùng:</label>
-            <input type="text" id="searchUsername" name="searchUsername" placeholder="Nhập tên người dùng">
-            <button type="submit">Tìm kiếm</button>
-          </form>
-
         <!-- Main content -->
         <main class="fade-in" id="page-title">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -53,17 +45,39 @@
             <i class="fas fa-user-plus"></i> Thêm Người Dùng
           </a>
 
+          <%-- Search --%>
+          <form action="${pageContext.request.contextPath}/users?action=listUsers" method="get">
+            <div class="input-group" style="max-width: 500px;">
+              <input type="text" class="form-control" id="searchUser" name="searchUser"
+                     placeholder="Nhập thông tin người dùng"
+                     value="${param.searchUser}"
+                     aria-label="Tìm người dùng">
+
+              <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search"></i> Tìm kiếm
+              </button>
+
+              <!-- Nút quay lại nếu có tìm kiếm -->
+              <c:if test="${not empty param.searchUser}">
+                <a href="${pageContext.request.contextPath}/users?action=listUsers"
+                   class="btn btn-secondary ms-2">
+                  <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+              </c:if>
+            </div>
+          </form>
+
           <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">
               <thead>
-              <tr>
-                <th>STT</th>
-                <th>Tài khoản</th>
-                <th>Tên</th>
-                <th>Role</th>
-                <th>Trạng thái</th>
-                <th>Hành động</th>
-              </tr>
+                <tr>
+                  <th>STT</th>
+                  <th>Tài khoản</th>
+                  <th>Tên</th>
+                  <th>Role</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
               </thead>
               <tbody>
               <c:forEach var="user" items="${listUsers}" varStatus="loop">
@@ -95,11 +109,11 @@
                   </td>
                   <td>
                     <a href="/users?action=viewUser&username=${user.username}" class="btn btn-primary btn-sm me-1">
-                      <i class="fas fa-eye-alt"></i> Xem
+                      <i class="fas fa-eye"></i> Xem
                     </a>
 
                     <a href="${pageContext.request.contextPath}/users?action=updateUser&username=${user.username}" class="btn btn-secondary btn-sm me-1">
-                      <i class="fas fa-edit-alt"></i> Sửa
+                      <i class="fas fa-pen"></i> Sửa
                     </a>
 
                     <!-- Nút Xóa, hiển thị Modal -->
@@ -127,7 +141,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Bạn có chắc chắn muốn xóa người dùng này?
+          Bạn có chắc chắn muốn xóa người dùng <strong id="usernameDisplay"></strong>  không?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -149,6 +163,8 @@
     deleteButtons.forEach(function(button) {
       button.addEventListener('click', function() {
         var username = button.getAttribute('data-username');
+        document.getElementById('usernameToDelete').value = username;
+        document.getElementById('usernameDisplay').textContent = username;
         document.getElementById('usernameToDelete').value = username;
       });
     });

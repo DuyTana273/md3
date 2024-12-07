@@ -28,6 +28,13 @@ public class ProductRepo implements IProductRepo{
             "JOIN Categories c ON p.categories_id = c.categories_id " +
             "WHERE p.product_name = ?";
 
+    private static final String SEARCH_PRODUCT = "SELECT p.product_id, p.product_name, p.product_description, p.product_price, p.product_stock, p.product_img, p.product_createdDate, p.product_updateDate, \n" +
+            "       c.categories_id, c.categories_name\n" +
+            "FROM Products p\n" +
+            "JOIN Categories c ON p.categories_id = c.categories_id\n" +
+            "WHERE 1=1\n" +
+            "  AND (p.product_name LIKE ? OR p.product_price LIKE ? OR p.product_stock LIKE ? OR c.categories_name LIKE ?)\n";
+
     private static final String UPDATE_PRODUCTS = "UPDATE Products SET product_name = ?, product_description = ?, product_price = ?, product_stock = ?, product_img = ?, product_createdDate = ?, product_updateDate = ?, categories_id = ? WHERE product_id = ?";
 
     private static final String DELETE_PRODUCTS_BY_ID = "DELETE FROM Products WHERE product_id = ?";
@@ -99,6 +106,27 @@ public class ProductRepo implements IProductRepo{
             throw new RuntimeException(e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Product> searchProduct(String searchKeyword) {
+        List<Product> product = new ArrayList<>();
+        try (Connection connection = BaseRepository.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_PRODUCT)) {
+            String searchPattern = "%" + searchKeyword + "%";
+            preparedStatement.setString(1, searchPattern);
+            preparedStatement.setString(2, searchPattern);
+            preparedStatement.setString(3, searchPattern);
+            preparedStatement.setString(4, searchPattern);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                product.add(mapProduct(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return product;
     }
 
     // Update

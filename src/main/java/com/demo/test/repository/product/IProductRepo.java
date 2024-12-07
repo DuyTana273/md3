@@ -15,6 +15,7 @@ public interface IProductRepo {
     List<Product> findAllProducts();
     Optional<Product> findProductById(int product_id);
     Optional<Product> findProductByName(String product_name);
+    List<Product> searchProduct(String searchKeyword);
 
     // Update
     void updateProduct(Product product);

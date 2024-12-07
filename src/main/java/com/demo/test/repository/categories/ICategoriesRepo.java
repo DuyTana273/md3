@@ -15,6 +15,7 @@ public interface ICategoriesRepo {
     List<Categories> findAllCategories();
     Optional<Categories> findCategoriesById(int categories_id);
     Optional<Categories> findCategoriesByName(String categories_name);
+    List<Categories> searchCategories(String searchKeyword);
 
     // Update
     void updateCategories(Categories categories);

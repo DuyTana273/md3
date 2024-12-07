@@ -17,6 +17,8 @@ public class UserRepo implements IUserRepo {
     private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM Users WHERE username = ? AND password = ?";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username = ?";
     private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM Users WHERE email = ?";
+    private static final String SEARCH_USERS = "SELECT * FROM Users WHERE 1=1 " +
+            "AND (username LIKE ? OR fullName LIKE ? OR email LIKE ? OR phone LIKE ? OR address LIKE ? OR userRole LIKE ? OR userStatus LIKE ?)";
     private static final String UPDATE_USER = "UPDATE Users SET username = ?, password = ?, fullName = ?, email = ?, phone = ?, address = ?, avatar = ?, userCreatedDate = ?, userUpdatedDate = ?, userStatus = ?, userRole = ? WHERE userID = ?";
     private static final String DELETE_USER_BY_USERNAME = "DELETE FROM Users WHERE username = ?";
 
@@ -119,6 +121,30 @@ public class UserRepo implements IUserRepo {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<User> searchUsers(String searchKeyword) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = BaseRepository.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_USERS)){
+            String searchPattern = "%" + searchKeyword + "%";
+            preparedStatement.setString(1, searchPattern);
+            preparedStatement.setString(2, searchPattern);
+            preparedStatement.setString(3, searchPattern);
+            preparedStatement.setString(4, searchPattern);
+            preparedStatement.setString(5, searchPattern);
+            preparedStatement.setString(6, searchPattern);
+            preparedStatement.setString(7, searchPattern);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                users.add(mapUser(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return users;
     }
 
     // Update

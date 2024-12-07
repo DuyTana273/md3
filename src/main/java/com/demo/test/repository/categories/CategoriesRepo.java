@@ -15,6 +15,8 @@ public class CategoriesRepo implements ICategoriesRepo {
     private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM Categories";
     private static final String SELECT_CATEGORIES_BY_ID = "SELECT * FROM Categories WHERE categories_id = ?";
     private static final String SELECT_CATEGORIES_BY_NAME = "SELECT * FROM Categories WHERE categories_name = ?";
+    private static final String SEARCH_CATEGORIES = "SELECT * FROM Categories WHERE 1=1 " +
+            "AND categories_name LIKE ?";
     private static final String UPDATE_CATEGORIES = "UPDATE Categories SET categories_name = ?, categories_img = ?, categories_createdDate = ?, categories_updatedDate = ? WHERE categories_id = ?";
     private static final String DELETE_CATEGORIES_BY_NAME = "DELETE FROM Categories WHERE categories_name = ?";
 
@@ -80,6 +82,24 @@ public class CategoriesRepo implements ICategoriesRepo {
             throw new RuntimeException(e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Categories> searchCategories(String searchKeyword) {
+        List<Categories> categories = new ArrayList<>();
+        try (Connection connection = BaseRepository.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_CATEGORIES)) {
+            String ssearchPattern = "%" + searchKeyword + "%";
+            preparedStatement.setString(1, ssearchPattern);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                categories.add(mapCategories(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return categories;
     }
 
     // Update

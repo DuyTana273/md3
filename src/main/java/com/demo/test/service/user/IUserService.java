@@ -15,6 +15,7 @@ public interface IUserService {
     Optional<User> findUserByUsernameAndPassword(String username, String password);
     Optional<User>  findByUsername(String username);
     Optional<User> findByEmail(String email);
+    List<User> searchUsers(String searchKeyword);
 
     // Update
     void updateUser(User user);

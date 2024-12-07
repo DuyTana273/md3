@@ -44,6 +44,28 @@
         <i class="fas fa-plus-circle"></i> Thêm Sản Phẩm
       </a>
 
+      <%-- Search --%>
+      <form action="${pageContext.request.contextPath}/product?action=listProducts" method="get">
+        <div class="input-group" style="max-width: 500px;">
+          <input type="text" class="form-control" id="searchProduct" name="searchProduct"
+                 placeholder="Nhập thông tin sản phẩm"
+                 value="${param.searchProduct}"
+                 aria-label="Tìm sản phẩm">
+
+          <button class="btn btn-primary" type="submit">
+            <i class="fas fa-search"></i> Tìm kiếm
+          </button>
+
+          <!-- Nút quay lại nếu có tìm kiếm -->
+          <c:if test="${not empty param.searchProduct}">
+            <a href="${pageContext.request.contextPath}/product?action=listProducts"
+               class="btn btn-secondary ms-2">
+              <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+          </c:if>
+        </div>
+      </form>
+
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
           <thead>
@@ -68,11 +90,11 @@
               <td>${product.product_stock}</td>
               <td>
                 <a href="/product?action=viewProduct&product_name=${product.product_name}" class="btn btn-primary btn-sm me-1">
-                  <i class="fas fa-eye-alt"></i> Xem
+                  <i class="fas fa-eye"></i> Xem
                 </a>
 
                 <a href="${pageContext.request.contextPath}/product?action=updateProduct&product_name=${product.product_name}" class="btn btn-secondary btn-sm me-1">
-                  <i class="fas fa-edit-alt"></i> Sửa
+                  <i class="fas fa-pen"></i> Sửa
                 </a>
 
                 <!-- Nút Xóa, hiển thị Modal -->

@@ -1,7 +1,6 @@
 package com.demo.test.service.categories;
 
 import com.demo.test.model.Categories;
-import com.demo.test.model.Product;
 import com.demo.test.repository.categories.CategoriesRepo;
 import com.demo.test.repository.categories.ICategoriesRepo;
 
@@ -34,6 +33,11 @@ public class CategoriesService implements ICategoriesService {
     @Override
     public Optional<Categories> findCategoriesByName(String categories_name) {
         return categoriesRepo.findCategoriesByName(categories_name);
+    }
+
+    @Override
+    public List<Categories> searchCategories(String searchKeyword) {
+        return categoriesRepo.searchCategories(searchKeyword);
     }
 
     // UPDATE

@@ -84,7 +84,15 @@ public class CategoriesServlet extends HttpServlet {
                 return;
             }
 
-            List<Categories> listCategories = iCategoriesService.findAllCategories();
+            String searchKeyword = req.getParameter("searchCategoryName");
+
+            List<Categories> listCategories;
+            if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+                listCategories = iCategoriesService.searchCategories(searchKeyword.trim());
+            } else {
+                listCategories = iCategoriesService.findAllCategories();
+            }
+
             req.setAttribute("listCategories", listCategories);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/categories/listCategories.jsp");

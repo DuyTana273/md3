@@ -45,6 +45,11 @@ public class UserService implements IUserService {
         return iUserRepo.findByEmail(email);
     }
 
+    @Override
+    public List<User> searchUsers(String searchKeyword) {
+        return iUserRepo.searchUsers(searchKeyword);
+    }
+
     // Update
     @Override
     public void updateUser(User user) {
