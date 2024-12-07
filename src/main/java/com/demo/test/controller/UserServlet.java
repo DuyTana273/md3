@@ -75,31 +75,34 @@ public class UserServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-        if (loggedInUser != null) {
-
-            if ("customer".equals(loggedInUser.getUserRole())) {
-                session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào trang này!");
-                resp.sendRedirect(req.getContextPath() + "/index.jsp");
-                return;
-            }
-
-            String searchKeyword = req.getParameter("searchUser");
-
-            List<User> listUsers;
-            if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
-                listUsers = iUserService.searchUsers(searchKeyword.trim());
-            } else {
-                listUsers = iUserService.findAllUsers();
-            }
-
-            req.setAttribute("listUsers", listUsers);
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/users/listUsers.jsp");
-            dispatcher.forward(req, resp);
-        } else {
-            session.setAttribute("warningMessage", "Bạn cần phải đăng nhập!");
+        if (loggedInUser == null) {
+            session.setAttribute("errorMessage", "Bạn cần phải đăng nhập!");
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
         }
+        if ("customer".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền cập nhật danh mục sản phẩm!");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        String searchKeyword = req.getParameter("searchUser");
+        List<User> listUsers;
+
+        if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+            listUsers = iUserService.searchUsers(searchKeyword.trim());
+
+            if (listUsers.isEmpty()) {
+                session.setAttribute("errorMessage", "Không tìm thấy!");
+            }
+        } else {
+            listUsers = iUserService.findAllUsers();
+        }
+
+        req.setAttribute("listUsers", listUsers);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/users/listUsers.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void viewUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

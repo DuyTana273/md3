@@ -76,31 +76,34 @@ public class CategoriesServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-        if (loggedInUser != null) {
-
-            if ("customer".equals(loggedInUser.getUserRole())) {
-                session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào trang này!");
-                resp.sendRedirect(req.getContextPath() + "/index.jsp");
-                return;
-            }
-
-            String searchKeyword = req.getParameter("searchCategoryName");
-
-            List<Categories> listCategories;
-            if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
-                listCategories = iCategoriesService.searchCategories(searchKeyword.trim());
-            } else {
-                listCategories = iCategoriesService.findAllCategories();
-            }
-
-            req.setAttribute("listCategories", listCategories);
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/categories/listCategories.jsp");
-            dispatcher.forward(req, resp);
-        } else {
+        if (loggedInUser == null) {
             session.setAttribute("warningMessage", "Bạn cần phải đăng nhập!");
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
         }
+
+        if ("customer".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào trang này!");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        String searchKeyword = req.getParameter("searchCategoryName");
+        List<Categories> listCategories;
+
+        if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+            listCategories = iCategoriesService.searchCategories(searchKeyword.trim());
+
+            if (listCategories.isEmpty()) {
+                session.setAttribute("errorMessage", "Không tìm thấy!");
+            }
+        } else {
+            listCategories = iCategoriesService.findAllCategories();
+        }
+
+        req.setAttribute("listCategories", listCategories);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/categories/listCategories.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void showCreateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

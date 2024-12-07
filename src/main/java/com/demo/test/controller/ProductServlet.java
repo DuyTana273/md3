@@ -80,30 +80,34 @@ public class ProductServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-        if (loggedInUser != null) {
-
-            if ("customer".equals(loggedInUser.getUserRole())) {
-                session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào trang này!");
-                resp.sendRedirect(req.getContextPath() + "/index.jsp");
-                return;
-            }
-            String searchKeyword = req.getParameter("searchProduct");
-            System.out.println("Searching for: " + searchKeyword);
-
-            List<Product> listProducts;
-            if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
-                listProducts = iProductService.searchProduct(searchKeyword.trim());
-            } else {
-                listProducts = iProductService.findAllProducts();
-            }
-            req.setAttribute("listProducts", listProducts);
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/products/listProducts.jsp");
-            dispatcher.forward(req, resp);
-        } else {
+        if (loggedInUser == null) {
             session.setAttribute("warningMessage", "Bạn cần phải đăng nhập!");
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
         }
+
+        if ("customer".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào trang này!");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        String searchKeyword = req.getParameter("searchProduct");
+        List<Product> listProducts;
+
+        if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+            listProducts = iProductService.searchProduct(searchKeyword.trim());
+
+            if (listProducts.isEmpty()) {
+                session.setAttribute("errorMessage", "Không tìm thấy!");
+            }
+        } else {
+            listProducts = iProductService.findAllProducts();
+        }
+
+        req.setAttribute("listProducts", listProducts);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/products/listProducts.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void viewProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
