@@ -25,15 +25,23 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
-<body id="body-pd">
+<body>
   <!-- Gọi sidebar -->
   <jsp:include page="../../common/sidebar.jsp" />
   <!-- Gọi toast -->
   <jsp:include page="../../common/toast.jsp" />
 
 
-  <div class="main-content">
+  <div class="main-container" style="margin-top: 4rem">
       <div class="row">
+        <%-- Search --%>
+          <form action="${pageContext.request.contextPath}/users?action=searchUser" method="get" style="margin-bottom: 20px;">
+            <input type="hidden" name="action" value="searchUser">
+            <label for="searchUsername">Tìm người dùng:</label>
+            <input type="text" id="searchUsername" name="searchUsername" placeholder="Nhập tên người dùng">
+            <button type="submit">Tìm kiếm</button>
+          </form>
+
         <!-- Main content -->
         <main class="fade-in" id="page-title">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

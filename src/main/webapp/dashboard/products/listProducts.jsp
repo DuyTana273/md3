@@ -25,13 +25,13 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
-<body id="body-pd">
+<body>
 <!-- Gọi sidebar -->
 <jsp:include page="../../common/sidebar.jsp" />
 <!-- Gọi toast -->
 <jsp:include page="../../common/toast.jsp" />
 
-<div class="main-content">
+<div class="main-content" style="margin-top: 4rem">
   <div class="row">
     <!-- Main content -->
     <main class="fade-in" id="page-title">

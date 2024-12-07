@@ -28,7 +28,7 @@ public class ProductRepo implements IProductRepo{
             "JOIN Categories c ON p.categories_id = c.categories_id " +
             "WHERE p.product_name = ?";
 
-    private static final String UPDATE_PRODUCTS = "UPDATE Products SET product_name = ?, product_description = ?, product_price = ?, product_stock = ?, product_img = ?, product_createdDate = ?, product_updatedDate = ?, categories_id = ? WHERE product_id = ?";
+    private static final String UPDATE_PRODUCTS = "UPDATE Products SET product_name = ?, product_description = ?, product_price = ?, product_stock = ?, product_img = ?, product_createdDate = ?, product_updateDate = ?, categories_id = ? WHERE product_id = ?";
 
     private static final String DELETE_PRODUCTS_BY_ID = "DELETE FROM Products WHERE product_id = ?";
 
@@ -44,8 +44,8 @@ public class ProductRepo implements IProductRepo{
             preparedStatement.setDouble(3, product.getProduct_price());
             preparedStatement.setInt(4, product.getProduct_stock());
             preparedStatement.setString(5, product.getProduct_img());
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(product.getProduct_createdDate()));
-            preparedStatement.setTimestamp(5, Timestamp.valueOf(product.getProduct_updateDate()));
+            preparedStatement.setTimestamp(6, Timestamp.valueOf(product.getProduct_createdDate()));
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(product.getProduct_updateDate()));
             preparedStatement.setInt(8, product.getCategories_id());
 
             preparedStatement.executeUpdate();
@@ -103,7 +103,6 @@ public class ProductRepo implements IProductRepo{
 
     // Update
     public void updateProduct(Product product) {
-        String getCategoryIdQuery = "SELECT categories_id FROM Categories WHERE categories_name = ?";
         try (Connection connection = BaseRepository.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCTS)) {
             preparedStatement.setString(1, product.getProduct_name());

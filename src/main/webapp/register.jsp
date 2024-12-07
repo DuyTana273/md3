@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body id="body-pd">
+<body>
 <!-- Gọi Sidebar -->
 <jsp:include page="common/sidebar.jsp" />
 
@@ -22,7 +22,7 @@
 <%@ include file="common/toast.jsp" %>
 
 <!-- Main Content -->
-<div class="main-content">
+<div class="main-content" style="margin-top: 4rem">
     <div class="container">
         <h1 class="mb-4">Đăng ký</h1>
         <form action="${pageContext.request.contextPath}/register" method="post" class="bg-white p-4 shadow rounded">

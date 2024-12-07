@@ -16,13 +16,13 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body id="body-pd">
+<body>
 <!-- Gọi sidebar -->
 <jsp:include page="../../common/sidebar.jsp" />
 <!-- Gọi toast -->
 <jsp:include page="../../common/toast.jsp" />
 
-<div class="main-content" style="margin-top: 100px;">
+<div class="main-content" style="margin-top: 4rem">
     <form action="${pageContext.request.contextPath}/categories?action=createCategories" method="post">
         <h2 class="mb-4">Tạo Thương Hiệu Mới</h2>
         <div class="mb-3">

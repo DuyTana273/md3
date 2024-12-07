@@ -1,6 +1,7 @@
 package com.demo.test.service.categories;
 
 import com.demo.test.model.Categories;
+import com.demo.test.model.Product;
 import com.demo.test.repository.categories.CategoriesRepo;
 import com.demo.test.repository.categories.ICategoriesRepo;
 

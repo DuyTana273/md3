@@ -498,4 +498,5 @@ public class UserServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/users?action=listUsers");
         }
     }
+
 }

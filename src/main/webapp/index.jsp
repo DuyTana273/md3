@@ -16,7 +16,7 @@
 <jsp:include page="common/toast.jsp" />
 
 <!-- Main Content -->
-<div class="main-content">
+<div class="main-content" style="margin-top: 4rem">
     <h1>Chào mừng bạn đến với TanaShop!</h1>
     <p>Đây là trang chủ của ứng dụng.</p>
 </div>

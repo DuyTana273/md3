@@ -26,10 +26,10 @@
   <!-- User Section -->
   <div class="user-actions d-flex align-items-center">
     <!-- User is logged in -->
-    <c:if test="${not empty sessionScope.loggedInUser }">
+    <c:if test="${not empty sessionScope.loggedInUser}">
       <div class="d-flex align-items-center me-3">
         <img src="${sessionScope.loggedInUser.avatar}" alt="avatar" class="rounded-circle border" width="40px">
-        <a href="${pageContext.request.contextPath}/users?action=viewUser &username=${sessionScope.loggedInUser.username}" class="ms-2 text-dark fw-semibold text-decoration-none">
+        <a href="${pageContext.request.contextPath}/users?action=viewUser&username=${sessionScope.loggedInUser.username}" class="ms-2 text-dark fw-semibold text-decoration-none">
             ${sessionScope.loggedInUser.fullName}
         </a>
       </div>
@@ -46,7 +46,7 @@
   </div>
 </header>
 
-<!-- Sidebar Navigation -->
+<!-- Sidebar -->
 <div class="l-navbar" id="nav-bar">
   <nav class="nav">
     <div>
@@ -56,7 +56,7 @@
         <span class="nav_logo-name">TanaShop</span>
       </a>
 
-      <!-- Navigation Links -->
+      <!-- Navigation -->
       <div class="nav_list">
         <c:choose>
           <c:when test="${not empty sessionScope.loggedInUser }">
@@ -125,7 +125,7 @@
       </div>
     </div>
 
-    <!-- Sign Out or Dashboard Link -->
+    <!-- Sign Out or Dashboard -->
     <c:if test="${not empty sessionScope.loggedInUser}">
       <c:choose>
         <c:when test="${sessionScope.loggedInUser.userRole == 'customer'}">
@@ -168,30 +168,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
-    const showNavbar = (toggleId, navId, bodyId, headerId) => {
-      const toggle = document.getElementById(toggleId),
-              nav = document.getElementById(navId),
-              bodypd = document.getElementById(bodyId),
-              headerpd = document.getElementById(headerId);
+    document.addEventListener("DOMContentLoaded", function(event) {
 
-      // Validate that all variables exist
-      if (toggle && nav && bodypd && headerpd) {
-        toggle.addEventListener('click', () => {
-          // Show navbar
-          nav.classList.toggle('show');
-          // Change icon
-          toggle.classList.toggle('bx-x');
-          // Add padding to body
-          bodypd.classList.toggle('body-pd');
-          // Add padding to header
-          headerpd.classList.toggle('body-pd');
-        });
+      const showNavbar = (toggleId, navId, bodyId, headerId) =>{
+        const toggle = document.getElementById(toggleId),
+                nav = document.getElementById(navId),
+                bodypd = document.getElementById(bodyId),
+                headerpd = document.getElementById(headerId)
+
+        if(toggle && nav && bodypd && headerpd){
+          toggle.addEventListener('click', ()=>{
+            nav.classList.toggle('show')
+            toggle.classList.toggle('bx-x')
+            bodypd.classList.toggle('body-pd')
+            headerpd.classList.toggle('body-pd')
+          })
+        }
       }
-    };
 
-    showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
-  });
+      showNavbar('header-toggle','nav-bar','body-pd','header')
+
+      /*===== LINK ACTIVE =====*/
+      const linkColor = document.querySelectorAll('.nav_link')
+
+      function colorLink(){
+        if(linkColor){
+          linkColor.forEach(l=> l.classList.remove('active'))
+          this.classList.add('active')
+        }
+      }
+      linkColor.forEach(l=> l.addEventListener('click', colorLink))
+
+    });
 </script>
 </body>
 </html>

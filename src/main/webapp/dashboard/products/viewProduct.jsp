@@ -28,14 +28,14 @@
         }
     </style>
 </head>
-<body id="body-pd">
+<body>
 
 <!-- Gọi sidebar -->
 <jsp:include page="../../common/sidebar.jsp" />
 <!-- Gọi toast -->
 <jsp:include page="../../common/toast.jsp" />
 
-<div id="main-content" style="margin-top: 100px;">
+<div id="main-content" style="margin-top: 4rem">
     <div class="container">
         <%-- Hiển thị chi tiết sản phẩm --%>
         <c:if test="${not empty product}">

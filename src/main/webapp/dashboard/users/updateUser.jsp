@@ -11,13 +11,13 @@
 <head>
     <title>Update User</title>
 </head>
-<body id="body-pd">
+<body>
     <!-- Gọi sidebar -->
     <jsp:include page="../../common/sidebar.jsp" />
     <!-- Gọi toast -->
     <jsp:include page="../../common/toast.jsp" />
 
-    <form action="${pageContext.request.contextPath}/users?action=updateUser" method="post" style="margin-top: 100px">
+    <form action="${pageContext.request.contextPath}/users?action=updateUser" method="post" style="margin-top: 4rem">
         <div class="mb-3">
             <label for="username" class="form-label">Tên đăng nhập</label>
             <input type="text" id="username" name="username" class="form-control" value="${username != null ? username : user.username}" readonly>
@@ -59,6 +59,7 @@
         <div class="mb-3">
             <label for="userRole" class="form-label">Vai trò</label>
             <select id="userRole" name="userRole" class="form-select">
+                <option value="" disabled selected>-- Chọn Role --</option>
                 <option value="admin" ${user.userRole == 'admin' ? 'selected' : ''}>Admin</option>
                 <option value="manager" ${user.userRole == 'manager' ? 'selected' : ''}>Manager</option>
                 <option value="employee" ${user.userRole == 'employee' ? 'selected' : ''}>Employee</option>

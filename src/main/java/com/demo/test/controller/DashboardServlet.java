@@ -24,21 +24,23 @@ public class DashboardServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-        if (session != null && session.getAttribute("loggedInUser") != null) {
-            User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-            if ("customer".equals(loggedInUser.getUserRole())) {
-                session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào trang này!");
-                resp.sendRedirect(req.getContextPath() + "/index.jsp");
-                return;
-            }
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/dashboard.jsp");
-            dispatcher.forward(req, resp);
-        } else {
-            session.setAttribute("warningMessage", "Bạn cần phải đăng nhập!");
+        if (loggedInUser == null) {
+            session.setAttribute("errorMessage", "Bạn cần phải đăng nhập!");
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
         }
+        if ("customer".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền truy cập vào Dashboard Admin!");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        session.setAttribute("successMessage", "Đăng nhập thành công");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard/dashboard.jsp");
+        dispatcher.forward(req, resp);
+
     }
 }

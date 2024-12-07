@@ -16,13 +16,13 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body id="body-pd">
+<body>
 <!-- Gọi sidebar -->
 <jsp:include page="../../common/sidebar.jsp" />
 <!-- Gọi toast -->
 <jsp:include page="../../common/toast.jsp" />
 
-<div class="main-content" style="margin-top: 100px;">
+<div class="main-content" style="margin-top: 4rem">
   <form action="${pageContext.request.contextPath}/users?action=createUser" method="post">
     <h2 class="mb-4">Tạo Người Dùng Mới</h2>
     <div class="mb-3">
@@ -53,6 +53,7 @@
     <div class="mb-3">
       <label for="userRole" class="form-label">Vai trò:</label>
       <select class="form-select" id="userRole" name="userRole" required>
+        <option value="" disabled selected>-- Chọn Role --</option>
         <option value="customer" ${'customer' == param.userRole ? 'selected' : ''}>Customer</option>
         <option value="employee" ${'employee' == param.userRole ? 'selected' : ''}>Employee</option>
         <option value="manager" ${'manager' == param.userRole ? 'selected' : ''}>Manager</option>
