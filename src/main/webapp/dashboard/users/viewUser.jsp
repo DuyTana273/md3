@@ -68,11 +68,11 @@
             </tr>
             <tr>
               <th>Ngày tạo</th>
-              <td>${user.userCreatedDate}</td>
+              <td>${user.formattedCreatedDate}</td>
             </tr>
             <tr>
               <th>Ngày cập nhật</th>
-              <td>${user.userUpdatedDate}</td>
+              <td>${user.formattedUpdateDate}</td>
             </tr>
             <tr>
               <th>Trạng thái</th>

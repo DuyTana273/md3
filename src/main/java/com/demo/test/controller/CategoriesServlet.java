@@ -177,6 +177,12 @@ public class CategoriesServlet extends HttpServlet {
             return;
         }
 
+        if ("employee".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền cập nhật danh mục sản phẩm!");
+            resp.sendRedirect(req.getContextPath() + "/categories?action=listCategories");
+            return;
+        }
+
         Optional<Categories> categoriesToUpdate = iCategoriesService.findCategoriesByName(categories_name);
         if (categoriesToUpdate.isEmpty()) {
             session.setAttribute("errorMessage", "Thương hiệu không tồn tại");

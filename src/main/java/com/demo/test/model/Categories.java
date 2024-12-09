@@ -1,7 +1,10 @@
 package com.demo.test.model;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Categories {
     private int categories_id;
@@ -66,5 +69,16 @@ public class Categories {
 
     public void setCategories_updatedDate(LocalDateTime categories_updatedDate) {
         this.categories_updatedDate = categories_updatedDate;
+    }
+
+
+    public String getFormattedCreatedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return categories_createdDate.format(formatter);
+    }
+
+    public String getFormattedUpdateDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return categories_updatedDate.format(formatter);
     }
 }

@@ -23,7 +23,7 @@
     <!-- Gọi toast -->
     <jsp:include page="../common/toast.jsp" />
 
-    <div id="main-content" style="margin-top: 200px">
+    <div id="main-content" style="margin-top: 4rem">
         <h4>Xin chào đến với Dashboard Admin</h4>
     </div>
 </body>

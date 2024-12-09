@@ -83,8 +83,8 @@
               <tr>
                 <td>${loop.count}</td>
                 <td>${categories.categories_name}</td>
-                <td>${categories.categories_createdDate}</td>
-                <td>${categories.categories_updatedDate}</td>
+                <td>${categories.formattedCreatedDate}</td>
+                <td>${categories.formattedUpdateDate}</td>
                 <td><img src="${categories.categories_img}" alt="logo" style="width: 100px"></td>
                 <td>
                   <a href="${pageContext.request.contextPath}/categories?action=updateCategories&categories_name=${categories.categories_name}" class="btn btn-secondary btn-sm me-1">
@@ -116,7 +116,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Bạn có chắc chắn muốn xóa thương hiệu này?
+          Bạn có chắc chắn muốn xóa thương hiệu <strong id="categoryDisplay"></strong> không?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -138,6 +138,7 @@
     deleteButtons.forEach(function(button) {
       button.addEventListener('click', function() {
         var categories_name = button.getAttribute('data-categories_name');
+        document.getElementById('categoryDisplay').textContent = categories_name;
         document.getElementById('categoriesToDelete').value = categories_name;
       });
     });

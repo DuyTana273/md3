@@ -1,6 +1,9 @@
 package com.demo.test.model;
 
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Product {
     private int product_id;
@@ -123,4 +126,20 @@ public class Product {
     public void setCategories_name(String categories_name) {
         this.categories_name = categories_name;
     }
+
+    public String getFormattedPrice() {
+        NumberFormat formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        return formatPrice.format(product_price);
+    }
+
+    public String getFormattedCreatedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return product_createdDate.format(formatter);
+    }
+
+    public String getFormattedUpdateDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return product_updateDate.format(formatter);
+    }
+
 }

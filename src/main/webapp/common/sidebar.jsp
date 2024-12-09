@@ -18,33 +18,75 @@
 <body id="body-pd">
 
 <!-- Header -->
-<header id="header" class="header">
-  <div class="header_toggle">
-    <i class='bx bx-menu' id="header-toggle"></i>
-  </div>
-
-  <!-- User Section -->
-  <div class="user-actions d-flex align-items-center">
-    <!-- User is logged in -->
-    <c:if test="${not empty sessionScope.loggedInUser}">
-      <div class="d-flex align-items-center me-3">
-        <img src="${sessionScope.loggedInUser.avatar}" alt="avatar" class="rounded-circle border" width="40px">
-        <a href="${pageContext.request.contextPath}/users?action=viewUser&username=${sessionScope.loggedInUser.username}" class="ms-2 text-dark fw-semibold text-decoration-none">
-            ${sessionScope.loggedInUser.fullName}
-        </a>
+<!-- Header -->
+<header id="header" class="header bg-light shadow-sm py-2">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <!-- Toggle Menu (Cột bên trái) -->
+      <div class="col-3">
+        <div class="header_toggle">
+          <i class='bx bx-menu' id="header-toggle"></i>
+        </div>
       </div>
-      <button type="button" class="btn btn-outline-primary btn-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#logoutModal">
-        <i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất
-      </button>
-    </c:if>
 
-    <!-- User is not logged in -->
-    <c:if test="${empty sessionScope.loggedInUser }">
-      <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline-primary btn-sm me-2">Đăng Nhập</a>
-      <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-outline-primary btn-sm">Đăng Ký</a>
-    </c:if>
+      <!-- Search Section (Cột giữa) -->
+      <div class="col-6 d-flex justify-content-center">
+        <c:if test="${sessionScope.loggedInUser.userRole == 'customer'}">
+          <form action="${pageContext.request.contextPath}/index?action=listProducts" method="get" class="w-100">
+            <div class="input-group">
+              <input type="text" class="form-control" id="searchProduct" name="searchProduct"
+                     placeholder="Nhập tên sản phẩm cần tìm"
+                     value="${param.searchProduct}"
+                     aria-label="Tìm sản phẩm">
+              <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search"></i> Tìm kiếm
+              </button>
+              <!-- Nút quay lại nếu có tìm kiếm -->
+              <c:if test="${not empty param.searchProduct}">
+                <a href="${pageContext.request.contextPath}/index?action=listProducts" class="btn btn-secondary ms-2">
+                  <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+              </c:if>
+            </div>
+          </form>
+        </c:if>
+      </div>
+
+      <!-- User Section và Cart -->
+      <div class="col-3 d-flex justify-content-end align-items-center">
+        <!-- Cart -->
+        <c:if test="${sessionScope.loggedInUser.userRole == 'customer'}">
+          <div class="cart-info ms-3">
+            <a href="${pageContext.request.contextPath}/cart" class="d-flex align-items-center">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="badge bg-danger ms-2">${sessionScope.cartItemCount}</span>
+            </a>
+          </div>
+        </c:if>
+
+        <!-- User Info -->
+        <c:if test="${not empty sessionScope.loggedInUser}">
+          <div class="d-flex align-items-center ms-3">
+            <img src="${sessionScope.loggedInUser.avatar}" alt="avatar" class="rounded-circle border" width="40px">
+            <a href="${pageContext.request.contextPath}/users?action=viewUser&username=${sessionScope.loggedInUser.username}" class="ms-2 text-dark fw-semibold text-decoration-none">
+                ${sessionScope.loggedInUser.fullName}
+            </a>
+          </div>
+          <button type="button" class="btn btn-outline-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất
+          </button>
+        </c:if>
+
+        <!-- User NOT LOGIN-->
+        <c:if test="${empty sessionScope.loggedInUser}">
+          <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline-primary btn-sm me-2">Đăng Nhập</a>
+          <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-outline-primary btn-sm">Đăng Ký</a>
+        </c:if>
+      </div>
+    </div>
   </div>
 </header>
+
 
 <!-- Sidebar -->
 <div class="l-navbar" id="nav-bar">
@@ -65,7 +107,7 @@
                 <i class='bx bx-home nav_icon'></i>
                 <span class="nav_name">Trang Chủ</span>
               </a>
-              <a href="#" class="nav_link">
+              <a href="${pageContext.request.contextPath}/index?action=listProducts" class="nav_link">
                 <i class='bx bx-store nav_icon'></i>
                 <span class="nav_name">Tất cả sản phẩm</span>
               </a>
@@ -79,7 +121,7 @@
             </c:if>
             <c:if test="${sessionScope.loggedInUser.userRole == 'admin' || sessionScope.loggedInUser.userRole == 'manager' || sessionScope.loggedInUser.userRole == 'employee'}">
               <a href="${pageContext.request.contextPath}/dashboard" class="nav_link">
-                <i class='bx bx-grid-alt nav_icon'></i>
+                <i class='bx bx-home nav_icon'></i>
                 <span class="nav_name">Dashboard</span>
               </a>
               <a href="${pageContext.request.contextPath}/users?action=listUsers" class="nav_link">
@@ -98,9 +140,9 @@
                 <i class='bx bx-cart nav_icon'></i>
                 <span class="nav_name">Cart</span>
               </a>
-              <a href="#" class="nav_link">
-                <i class='bx bx-chart nav_icon'></i>
-                <span class="nav_name">Stats</span>
+              <a href="${pageContext.request.contextPath}/index?action=listProducts" class="nav_link">
+                <i class='bx bx-store nav_icon'></i>
+                <span class="nav_name">All Product</span>
               </a>
             </c:if>
           </c:when>
@@ -109,7 +151,7 @@
               <i class='bx bx-home nav_icon'></i>
               <span class="nav_name">Trang Chủ</span>
             </a>
-            <a href="#" class="nav_link">
+            <a href="${pageContext.request.contextPath}/index?action=listProducts" class="nav_link">
               <i class='bx bx-store nav_icon'></i>
               <span class="nav_name">Tất cả sản phẩm</span>
             </a>

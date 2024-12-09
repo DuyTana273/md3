@@ -55,7 +55,7 @@
                         </tr>
                         <tr>
                             <th>Giá tiền</th>
-                            <td>${product.product_price}</td>
+                            <td>${product.formattedPrice}</td>
                         </tr>
                         <tr>
                             <th>Số lượng</th>
@@ -67,11 +67,11 @@
                         </tr>
                         <tr>
                             <th>Ngày tạo</th>
-                            <td>${product.product_createdDate}</td>
+                            <td>${product.formattedCreatedDate}</td>
                         </tr>
                         <tr>
                             <th>Ngày cập nhật</th>
-                            <td>${product.product_updateDate}</td>
+                            <td>${product.formattedUpdateDate}</td>
                         </tr>
                         <tr>
                             <th>Thương hiệu</th>

@@ -84,7 +84,7 @@
             <tr>
               <td>${loop.count}</td>
               <td>${product.product_name}</td>
-              <td>${product.product_price}</td>
+              <td>${product.formattedPrice}</td>
               <td>${product.categories_name}</td>
               <td><img src="${product.product_img}" alt="product" style="width: 100px"></td>
               <td>${product.product_stock}</td>
@@ -122,7 +122,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có chắc chắn muốn xóa sản phẩm này?
+        Bạn có chắc chắn muốn xóa sản phẩm <strong id="productDisplay"></strong> không?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -144,6 +144,7 @@
   deleteButtons.forEach(function(button) {
     button.addEventListener('click', function() {
       var product_name = button.getAttribute('data-product_name');
+      document.getElementById('productDisplay').textContent = product_name;
       document.getElementById('productToDelete').value = product_name;
     });
   });

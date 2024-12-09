@@ -1,93 +1,103 @@
-/* Toast Container */
 .toast-container {
     position: fixed;
-    right: 1rem;
-    max-width: 400px;
+    top: 4.5rem;
+    right: 20px;
     z-index: 9999;
 }
 
-/* Toast chính */
 .toast {
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    opacity: 0.95; /* Độ trong suốt */
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* Hiệu ứng khi toast xuất hiện và biến mất */
-.toast.show {
-    animation: fadeIn 0.5s, fadeOut 0.5s 4.5s forwards;
-}
-
-/* Hiệu ứng khi xuất hiện (fadeIn) */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hiệu ứng khi biến mất (fadeOut) */
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
-/* Căn chỉnh nội dung trong toast */
-.toast-body {
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
-    padding: 10px 15px;
+    background: #fff;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideIn 0.5s forwards;
 }
 
-/* Style cho icon bên trong toast */
+.toast-icon {
+    font-size: 2rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.toast-content {
+    margin-left: 7px;
+}
+
+.toast-title {
+    font-weight: lighter;
+    font-size: 1.2rem;
+    margin-bottom: 7px;
+}
+
+.toast-title.success {
+    color: green;
+}
+
+.toast-title.error {
+    color: red;
+}
+
+.toast-title.warning {
+    color: orange;
+}
+
+.toast.success {
+    border-left: 4px solid #00ff0a;
+    background: rgba(213, 255, 213, 0.2);
+}
+
+.toast.error {
+    border-left: 4px solid #ff1100;
+    background: rgba(255, 218, 214, 0.2);
+}
+
+.toast.warning {
+    border-left: 4px solid #ffdd00;
+    background: rgba(255, 248, 202, 0.2);
+}
+
 .toast i {
-    margin-right: 8px;
-    font-size: 1.25rem;
+    margin-right: 10px;
+    font-size: 1.2rem;
 }
 
-/* Màu sắc cho các loại toast khác nhau */
-.toast-success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.toast-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.toast-warning {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-/* Độ tương phản màu chữ và nền khi hover */
-.toast:hover {
-    opacity: 1;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Cài đặt nút đóng (close button) */
-.btn-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    filter: brightness(0) invert(1);
-    padding: 0.5rem;
+.toast .close-btn {
+    background: none;
     border: none;
-    background: transparent;
+    font-size: 1.2rem;
+    margin-left: auto;
     cursor: pointer;
 }
-/* Hiệu ứng cho nút đóng khi hover */
-.btn-close:hover {
-    opacity: 0.7;
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.toast.fade-out {
+    animation: fadeOut 3s forwards;
+    pointer-events: none;
 }
