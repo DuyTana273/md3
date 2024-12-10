@@ -45,9 +45,9 @@
             </thead>
             <tbody>
 
-            <c:forEach var="cartItem" items="${cartItems}">
+            <c:forEach var="cartItem" items="${cartItems}" varStatus="loop">
                 <tr>
-                    <td>${cartItem.cartItemId}</td>
+                    <td>${loop.count}</td>
                     <td>${cartItem.productName}</td>
                     <td>${cartItem.cartPrice}</td>
                     <td>

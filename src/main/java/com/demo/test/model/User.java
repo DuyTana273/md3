@@ -17,10 +17,8 @@ public class User {
     private String userStatus;
     private String userRole;
 
-    // Constructor không tham số
     public User() {}
-
-    // Constructor có tham số
+    
     public User(int userID, String username, String password,
                 String fullName, String email, String phone,
                 String address, String avatar,

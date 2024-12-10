@@ -81,7 +81,7 @@ public class UserServlet extends HttpServlet {
             return;
         }
         if ("customer".equals(loggedInUser.getUserRole())) {
-            session.setAttribute("warningMessage", "Bạn không có quyền cập nhật danh mục sản phẩm!");
+            session.setAttribute("warningMessage", "Bạn không có quyền truy cập Dashboard");
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }

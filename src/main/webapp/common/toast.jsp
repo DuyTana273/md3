@@ -48,17 +48,16 @@
   document.addEventListener('DOMContentLoaded', function () {
     const toastElList = document.querySelectorAll('.toast');
     toastElList.forEach(toastEl => {
-      toastEl.classList.add('show');  // Áp dụng hiệu ứng slide-in (fade-in)
+      toastEl.classList.add('show');
 
       setTimeout(() => {
-        toastEl.classList.add('fade-out');  // Thực hiện fade-out sau 3 giây
+        toastEl.classList.add('fade-out');
       }, 3000);
 
       setTimeout(() => {
-        toastEl.style.display = 'none';  // Ẩn toast khi hiệu ứng fade-out hoàn tất
-      }, 6000);  // Sau 6 giây (tổng thời gian hiển thị)
+        toastEl.style.display = 'none';
+      }, 6000);
 
-      // Khi người dùng click nút đóng
       toastEl.querySelector('.close-btn').addEventListener('click', () => {
         toastEl.style.display = 'none';
       });

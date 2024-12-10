@@ -18,7 +18,6 @@
 <body id="body-pd">
 
 <!-- Header -->
-<!-- Header -->
 <header id="header" class="header bg-light shadow-sm py-2">
   <div class="container-fluid">
     <div class="row align-items-center">
@@ -31,7 +30,7 @@
 
       <!-- Search Section (Cột giữa) -->
       <div class="col-6 d-flex justify-content-center">
-        <c:if test="${sessionScope.loggedInUser.userRole == 'customer'}">
+<%--        <c:if test="${sessionScope.loggedInUser.userRole == 'customer'}">--%>
           <form action="${pageContext.request.contextPath}/index?action=listProducts" method="get" class="w-100">
             <div class="input-group">
               <input type="text" class="form-control" id="searchProduct" name="searchProduct"
@@ -49,7 +48,7 @@
               </c:if>
             </div>
           </form>
-        </c:if>
+<%--        </c:if>--%>
       </div>
 
       <!-- User Section và Cart -->
