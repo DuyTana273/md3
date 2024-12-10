@@ -1,22 +1,28 @@
 package com.demo.test.controller;
 
+import com.demo.test.model.User;
 import com.demo.test.service.cart.CartService;
 import com.demo.test.service.cart.ICartService;
+import com.demo.test.service.cartItem.CartItemService;
+import com.demo.test.service.cartItem.ICartItemService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "cart", urlPatterns = "/cart")
 public class CartServlet extends HttpServlet {
     private ICartService iCartService;
+    private ICartItemService iCartItemService;
 
     @Override
     public void init() throws ServletException {
         iCartService = new CartService();
+        iCartItemService = new CartItemService();
     }
 
     @Override
@@ -65,7 +71,22 @@ public class CartServlet extends HttpServlet {
     }
 
     private void viewCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        HttpSession session = req.getSession(false);
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            session.setAttribute("warningMessage", "Bạn cần phải đăng nhập!");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        if ("customer".equals(loggedInUser.getUserRole())) {
+            session.setAttribute("warningMessage", "Bạn không có quyền xem giỏ hàng người dùng khác!");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+
     }
 
 

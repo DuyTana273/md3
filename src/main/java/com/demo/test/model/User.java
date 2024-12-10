@@ -18,7 +18,7 @@ public class User {
     private String userRole;
 
     public User() {}
-    
+
     public User(int userID, String username, String password,
                 String fullName, String email, String phone,
                 String address, String avatar,
